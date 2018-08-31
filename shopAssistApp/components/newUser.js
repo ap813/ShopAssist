@@ -50,7 +50,7 @@ class NewUser extends Component {
                             style={styles.answer}
                             onChangeText={(name) => this.setState({name})}
                             value={this.state.name}
-                            placeholder={'Bob'}
+                            placeholder={'Name'}
                             placeholderTextColor={'#82DCDC'} />
                     </View>
 

@@ -15,15 +15,15 @@ class Home extends Component {
                 </View>
 
                 <View style={styles.buttons}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={this.props.setNewTrip}>
                         <Text style={styles.buttonText}>New Trip</Text>
                     </TouchableOpacity>
                     <View style={styles.line}></View>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={this.props.setPastTrip}>
                         <Text style={styles.buttonText}>Past Trips</Text>
                     </TouchableOpacity>
                     <View style={styles.line}></View>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={this.props.setProfile}>
                         <Text style={styles.buttonText}>Profile</Text>
                     </TouchableOpacity>
                 </View>

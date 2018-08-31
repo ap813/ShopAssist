@@ -2,6 +2,9 @@ import React from 'react';
 import { AsyncStorage } from 'react-native';
 import Home from './components/Home'
 import NewUser from './components/newUser'
+import NewTrip from './components/newTrip'
+import PastTrip from './components/pastTrip'
+import Profile from './components/profile'
 
 export default class App extends React.Component {
 
@@ -20,6 +23,7 @@ export default class App extends React.Component {
         // Only Called Once
         this.passBackName = this.passBackName.bind(this);
 
+        // Navigation Functions
         this.setHome = this.setHome.bind(this);
         this.setNewTrip = this.setNewTrip.bind(this);
         this.setPastTrip = this.setPastTrip.bind(this);
@@ -105,14 +109,31 @@ export default class App extends React.Component {
     // Initial Screen: User Inputs Name
     // Four main states: Home, New Trip, Past Trip, & Profile
       render() {
+          return (
+              <NewTrip setHome={this.setHome} />
+          )
         if(this.state.splash) {
             return (
-                <NewUser passBack={this.passBackName}/>
+                <NewUser passBack={this.passBackName} />
             );
+        } else if(this.state.newTrip) {
+            return (
+                <NewTrip setHome={this.setHome} />
+            )
+        } else if(this.state.pastTrip) {
+            return (
+                <PastTrip />
+            )
+        } else if(this.state.profile) {
+            return (
+                <Profile />
+            )
+        } else {
+            return (
+                <Home setNewTrip={this.setNewTrip}
+                      setPastTrip={this.setPastTrip}
+                      setProfile={this.setProfile} />
+            )
         }
-
-        return (
-            <Home />
-        )
       }
 }
