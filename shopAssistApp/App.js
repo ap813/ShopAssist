@@ -6,6 +6,8 @@ import NewTrip from './components/newTrip'
 import PastTrip from './components/pastTrip'
 import Profile from './components/profile'
 
+Expo.ScreenOrientation.allow(Expo.ScreenOrientation.Orientation.PORTRAIT_UP)
+
 export default class App extends React.Component {
 
     constructor(props) {

@@ -7,18 +7,47 @@ import {
     TouchableOpacity
 } from 'react-native'
 
+import Cart from './cart'
+
 class NewTrip extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
             place: '',
-            budget: ''
-        }
+            price: '',
+            info: false,
+            budget: 0
+        };
 
+        // Function for changing the Screens
+        this.switchScreens = this.switchScreens.bind(this);
+
+        // Screen Renders
+        this.renderInfo = this.renderInfo.bind(this);
+        this.renderTrip = this.renderTrip.bind(this);
     }
 
-    render() {
+    switchScreens() {
+        let newBudget = Number(this.state.price);
+
+        if(this.state.info) {
+            if(newBudget != NaN && this.state.price != '') {
+                this.setState({
+                    budget: parseFloat(Math.round(newBudget * 100) / 100).toFixed(2)
+                });
+            } else {
+                return;
+            }
+        }
+
+        this.setState((prevState) => ({
+            info: !prevState.info
+        }));
+    }
+
+
+    renderInfo() {
         return (
             <View style={styles.container}>
                 <View style={styles.boxContainer}>
@@ -28,8 +57,8 @@ class NewTrip extends Component {
                     <View style={styles.box}>
                         <TextInput  style={styles.answerText}
                                     placeholder={'50.00'}
-                                    onChangeText={(budget) => this.setState({budget})}
-                                    value={this.state.budget}
+                                    onChangeText={(price) => this.setState({price})}
+                                    value={this.state.price}
                                     keyboardType={'numeric'}/>
                     </View>
                     <View style={styles.box}>
@@ -41,7 +70,7 @@ class NewTrip extends Component {
                                     onChangeText={(place) => this.setState({place})}
                                     value={this.state.place}/>
                     </View>
-                    <TouchableOpacity style={styles.buttonBox}>
+                    <TouchableOpacity onPress={() =>this.switchScreens()} style={styles.buttonBox}>
                         <Text style={styles.buttonText}>Go!</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={this.props.setHome} style={styles.wrongButtonBox}>
@@ -49,6 +78,18 @@ class NewTrip extends Component {
                     </TouchableOpacity>
                 </View>
             </View>
+        )
+    }
+
+    renderTrip() {
+        return (
+            <Cart budget={this.state.budget} back={this.switchScreens} />
+        )
+    }
+
+    render() {
+        return (
+            this.state.info ? this.renderInfo() : this.renderTrip()
         );
     }
 }
@@ -106,6 +147,6 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         paddingVertical: 20
     }
-})
+});
 
 export default NewTrip;
