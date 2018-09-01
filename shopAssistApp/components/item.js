@@ -11,9 +11,9 @@ class Item extends Component {
     render() {
         return (
             <View style={styles.item}>
-                <Text style={{fontSize: 20, marginVertical: 20}}>{this.props.name}</Text>
+                <Text style={{fontSize: 20, marginVertical: 20, color: '#339C9C'}}>{this.props.name}</Text>
                 <View style={{flexDirection: 'row'}}>
-                    <Text style={{fontSize: 20, marginHorizontal: 10, marginVertical:20}}>${parseFloat(Math.round(this.props.price * 100) / 100).toFixed(2)}</Text>
+                    <Text style={{fontSize: 20, marginHorizontal: 10, marginVertical:20, color: '#339C9C'}}>${parseFloat(Math.round(this.props.price * 100) / 100).toFixed(2)}</Text>
                     <TouchableOpacity style={{marginVertical:17}}>
                         <Image style={styles.image} source={require('../assets/cancel.png')}/>
                     </TouchableOpacity>

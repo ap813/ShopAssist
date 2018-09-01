@@ -4,7 +4,7 @@ import {
     View,
     StyleSheet,
     TouchableOpacity,
-    ScrollView
+    ScrollView, Image
 } from 'react-native'
 import Item from './item'
 import AddItem from './addItem'
@@ -14,7 +14,7 @@ class Cart extends Component {
         super(props);
 
         this.state = {
-            cart: false,
+            cart: true,
             budgetColor: '#E8F9F9',
             total: 0,
             items: []
@@ -64,12 +64,12 @@ class Cart extends Component {
             <View style={styles.container}>
                 <View style={[styles.header, {
                     backgroundColor: this.state.budgetColor,}]}>
-                    <TouchableOpacity style={{width: 50, height: 50}} onPress={this.props.back}>
-                        <Text style={styles.headerText}>{'<'}</Text>
+                    <TouchableOpacity onPress={this.props.back}>
+                        <Image style={styles.image} source={require('../assets/back.png')} />
                     </TouchableOpacity>
                     <Text style={styles.headerText}>Current Trip</Text>
-                    <TouchableOpacity style={{width: 50, height: 50}}>
-                        <Text style={styles.headerText}>+</Text>
+                    <TouchableOpacity onPress={() => this.switchCart()}>
+                        <Image style={styles.imageAdd} source={require('../assets/add.png')} />
                     </TouchableOpacity>
                 </View>
 
@@ -89,7 +89,7 @@ class Cart extends Component {
     // The Add Item Screen
     renderItem() {
         return (
-            <AddItem />
+            <AddItem back={this.switchCart}/>
         );
     }
 
@@ -122,6 +122,18 @@ const styles = StyleSheet.create({
         marginHorizontal: 10,
         backgroundColor: '#E8F9F9',
         marginVertical: 10
+    },
+    image: {
+        width: 30,
+        height: 30,
+        marginVertical: 25,
+        marginHorizontal: 20
+    },
+    imageAdd: {
+        width: 25,
+        height: 25,
+        marginVertical: 25,
+        marginHorizontal: 20
     }
 });
 
