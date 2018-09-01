@@ -16,8 +16,24 @@ class AddItem extends Component {
             name: '',
             price: ''
         };
+
+        // Construct object item
+        this.makeItem = this.makeItem.bind(this);
     }
 
+
+    makeItem() {
+        let price = Number(this.state.price);
+
+        if(price == NaN || this.state.price == '') {
+            return;
+        }
+
+        const payload = {name: this.state.name, price: price};
+
+        console.log(payload)
+        this.props.add(payload);
+    }
 
     render() {
         return (
@@ -27,7 +43,7 @@ class AddItem extends Component {
                         <Image style={styles.image} source={require('../assets/back.png')} />
                     </TouchableOpacity>
                     <Text style={styles.headerText}>Add Item</Text>
-                    <TouchableOpacity >
+                    <TouchableOpacity onPress={() => this.makeItem()}>
                         <Image style={styles.imageCheck} source={require('../assets/check.png')} />
                     </TouchableOpacity>
                 </View>

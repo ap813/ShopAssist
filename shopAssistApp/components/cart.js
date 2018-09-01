@@ -23,9 +23,16 @@ class Cart extends Component {
         // Function that change Render
         this.switchCart = this.switchCart.bind(this);
 
+        // Add item
+        this.addItem = this.addItem.bind(this);
+
         // Render Functions
         this.renderCart = this.renderCart.bind(this);
         this.renderItem = this.renderItem.bind(this);
+    }
+
+    componentWillMount() {
+        this.checkBudget()
     }
 
     // Switch between Cart Screen and Item Input Screen
@@ -35,8 +42,19 @@ class Cart extends Component {
         }))
     }
 
-    componentWillMount() {
-        this.checkBudget()
+    // Add Item to the state
+    addItem(item) {
+
+        const newItems = [...this.state.items];
+        newItems.unshift(item);
+
+        const total = this.state.total + item.price;
+
+        this.setState({
+            items: newItems,
+            total: total,
+            cart: true
+        })
     }
 
     // Determines the color of the header
@@ -60,6 +78,7 @@ class Cart extends Component {
 
     // The Cart Screen
     renderCart() {
+        console.log(this.state.total)
         return (
             <View style={styles.container}>
                 <View style={[styles.header, {
@@ -74,9 +93,14 @@ class Cart extends Component {
                 </View>
 
                 <ScrollView style={styles.cart}>
-                    <Item name={"Sandwich"} price={4}/>
-                    <Item name={"Sandwich"} price={4}/>
-                    <Item name={"Sandwich"} price={4}/>
+                    {
+                        this.state.items.map((item, i) => {
+                                console.log(item)
+                                return (
+                                    <Item key={i} name={item.name} price={item.price} />
+                                )
+                        })
+                    }
                 </ScrollView>
 
                 <View>
@@ -89,7 +113,7 @@ class Cart extends Component {
     // The Add Item Screen
     renderItem() {
         return (
-            <AddItem back={this.switchCart}/>
+            <AddItem back={this.switchCart} add={this.addItem} />
         );
     }
 
