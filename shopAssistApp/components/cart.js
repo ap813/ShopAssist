@@ -3,17 +3,21 @@ import {
     Text,
     View,
     StyleSheet,
-    TouchableOpacity
+    TouchableOpacity,
+    ScrollView
 } from 'react-native'
+import Item from './item'
+import AddItem from './addItem'
 
 class Cart extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            cart: true,
+            cart: false,
             budgetColor: '#E8F9F9',
-            total: 0
+            total: 0,
+            items: []
         };
 
         // Function that change Render
@@ -24,6 +28,7 @@ class Cart extends Component {
         this.renderItem = this.renderItem.bind(this);
     }
 
+    // Switch between Cart Screen and Item Input Screen
     switchCart() {
         this.setState((prevState) => ({
             cart: !prevState.cart
@@ -34,6 +39,8 @@ class Cart extends Component {
         this.checkBudget()
     }
 
+    // Determines the color of the header
+    // based on total cost and budget
     checkBudget() {
 
         if(this.state.total/this.props.budget > 1) {
@@ -51,6 +58,7 @@ class Cart extends Component {
         }
     }
 
+    // The Cart Screen
     renderCart() {
         return (
             <View style={styles.container}>
@@ -65,19 +73,27 @@ class Cart extends Component {
                     </TouchableOpacity>
                 </View>
 
+                <ScrollView style={styles.cart}>
+                    <Item name={"Sandwich"} price={4}/>
+                    <Item name={"Sandwich"} price={4}/>
+                    <Item name={"Sandwich"} price={4}/>
+                </ScrollView>
 
+                <View>
+                    <Text style={{fontSize: 24}}>Cancel</Text>
+                </View>
             </View>
         )
     }
 
+    // The Add Item Screen
     renderItem() {
         return (
-            <View>
-
-            </View>
+            <AddItem />
         );
     }
 
+    // Decides what to render
     render() {
         return (
            this.state.cart ? this.renderCart() : this.renderItem()
@@ -101,6 +117,11 @@ const styles = StyleSheet.create({
         paddingVertical: 20,
         fontSize: 30,
         color: '#339C9C'
+    },
+    cart: {
+        marginHorizontal: 10,
+        backgroundColor: '#E8F9F9',
+        marginVertical: 10
     }
 });
 
