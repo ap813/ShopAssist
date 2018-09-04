@@ -16,7 +16,7 @@ class NewTrip extends Component {
         this.state = {
             place: '',
             price: '',
-            info: false,
+            info: true,
             budget: 0
         };
 

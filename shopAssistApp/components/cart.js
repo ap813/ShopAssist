@@ -26,13 +26,16 @@ class Cart extends Component {
         // Add item
         this.addItem = this.addItem.bind(this);
 
+        // Remove Item
+        this.takeOut = this.takeOut.bind(this);
+
         // Render Functions
         this.renderCart = this.renderCart.bind(this);
         this.renderItem = this.renderItem.bind(this);
     }
 
     componentWillMount() {
-        this.checkBudget()
+        this.checkBudget(this.state.total)
     }
 
     // Switch between Cart Screen and Item Input Screen
@@ -55,17 +58,35 @@ class Cart extends Component {
             total: total,
             cart: true
         })
+
+        this.checkBudget(total);
+    }
+
+    // Removes item from items
+    takeOut(index, price) {
+
+        const newItems = [...this.state.items];
+        newItems.splice(index, 1);
+
+        const total = this.state.total - price;
+
+        this.setState({
+            items: newItems,
+            total
+        })
+
+        this.checkBudget(total);
     }
 
     // Determines the color of the header
     // based on total cost and budget
-    checkBudget() {
+    checkBudget(total) {
 
-        if(this.state.total/this.props.budget > 1) {
+        if(total/this.props.budget > 1) {
             this.setState({
                 budgetColor: '#F1948A'
             })
-        } else if(this.state.total/this.props.budget > 0.8) {
+        } else if(total/this.props.budget > 0.8) {
             this.setState({
                 budgetColor: '#FCF3CF'
             })
@@ -78,7 +99,7 @@ class Cart extends Component {
 
     // The Cart Screen
     renderCart() {
-        console.log(this.state.total)
+        console.log(this.state.total);
         return (
             <View style={styles.container}>
                 <View style={[styles.header, {
@@ -95,16 +116,16 @@ class Cart extends Component {
                 <ScrollView style={styles.cart}>
                     {
                         this.state.items.map((item, i) => {
-                                console.log(item)
+                                console.log(item);
                                 return (
-                                    <Item key={i} name={item.name} price={item.price} />
+                                    <Item key={i} name={item.name} price={item.price} takeOut={() => this.takeOut(i, item.price)}/>
                                 )
                         })
                     }
                 </ScrollView>
 
                 <View>
-                    <Text style={{fontSize: 24}}>Cancel</Text>
+                    <Text style={{fontSize: 24}}>{this.state.total}</Text>
                 </View>
             </View>
         )

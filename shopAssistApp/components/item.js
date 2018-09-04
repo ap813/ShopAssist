@@ -14,7 +14,7 @@ class Item extends Component {
                 <Text style={{fontSize: 20, marginVertical: 20, color: '#339C9C'}}>{this.props.name}</Text>
                 <View style={{flexDirection: 'row'}}>
                     <Text style={{fontSize: 20, marginHorizontal: 10, marginVertical:20, color: '#339C9C'}}>${parseFloat(Math.round(this.props.price * 100) / 100).toFixed(2)}</Text>
-                    <TouchableOpacity style={{marginVertical:17}}>
+                    <TouchableOpacity style={{marginVertical:17}} onPress={this.props.takeOut}>
                         <Image style={styles.image} source={require('../assets/cancel.png')}/>
                     </TouchableOpacity>
                 </View>
