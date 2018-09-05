@@ -30,6 +30,8 @@ class NewUser extends Component {
     _storeName = async () => {
         try {
             await AsyncStorage.setItem('@ShopAssist:name', this.state.name);
+
+            await AsyncStorage.setItem('@ShopAssist:trips', []);
             // Pass It Back to With Props
             this.props.passBack(this.state.name);
         } catch (error) {

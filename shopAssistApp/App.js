@@ -1,5 +1,5 @@
 import React from 'react';
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage, Alert } from 'react-native';
 import Home from './components/Home'
 import NewUser from './components/newUser'
 import NewTrip from './components/newTrip'
@@ -43,7 +43,7 @@ export default class App extends React.Component {
             const value = await AsyncStorage.getItem('@ShopAssist:name');
             if (value !== null) {
                 // There is a Name
-                console.log(value);
+                console.log("Name: " + value);
             }
         } catch (error) {
             // Error retrieving data
@@ -108,12 +108,26 @@ export default class App extends React.Component {
         })
     }
 
+    _retrieveTrips = async () => {
+        try {
+            const value = await AsyncStorage.getItem('@ShopAssist:trips');
+            if (value !== null) {
+                // There is a Name
+                console.log("Trips: "+ value);
+            }
+        } catch (error) {
+            Alert.alert("Problem")
+        }
+    }
+
     // Initial Screen: User Inputs Name
     // Four main states: Home, New Trip, Past Trip, & Profile
       render() {
-          return (
-              <NewTrip setHome={this.setHome} />
-          )
+
+        this._retrieveTrips();
+          // return (
+          //     <NewTrip setHome={this.setHome} />
+          // )
         if(this.state.splash) {
             return (
                 <NewUser passBack={this.passBackName} />
