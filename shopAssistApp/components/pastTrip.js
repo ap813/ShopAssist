@@ -21,7 +21,8 @@ class PastTrip extends Component {
         };
 
         // Switch between Screens
-        this.switch = this.switch.bind(this);
+        this.setSingle = this.setSingle.bind(this);
+        this.setAll = this.setAll.bind(this);
 
         // Renders
         this.renderSingleTrip = this.renderSingleTrip.bind(this);
@@ -48,18 +49,55 @@ class PastTrip extends Component {
     };
 
     // Changes what is rendered
-    switch() {
-        this.setState((prevState) => ({
-            showAll: !prevState.showAll
-        }))
+    setSingle(trip) {
+        this.setState({
+            showAll: false,
+            currentTrip: trip
+        })
+    }
+
+    setAll() {
+        this.setState({
+            showAll: true
+        })
     }
 
     renderSingleTrip() {
-        return(
-          <View>
-              <Text>
+        const trip = this.state.currentTrip;
 
-              </Text>
+        return(
+          <View style={styles.container}>
+              <View style={styles.headerBox}>
+                  <Text style={styles.header}>{trip.place}</Text>
+              </View>
+
+              <View style={styles.box}>
+                  <ScrollView>
+                      <Text style={{fontSize:22, textAlign: 'center', textDecorationLine: 'underline', paddingTop: 10}}>Items</Text>
+
+                      {
+                          trip.items.map((item, index) => {
+                              console.log(item);
+                              return(
+                                  <View key={index} style={styles.item}>
+                                    <Text style={{fontSize: 18}}>{item.name}</Text>
+                                    <Text style={{fontSize: 18}}>${parseFloat(Math.round(item.price * 100) / 100).toFixed(2)}</Text>
+                                  </View>
+                              )
+                          })
+                      }
+
+                  </ScrollView>
+
+                  <View style={{flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 5, marginVertical: 10}}>
+                      <Text style={{fontSize: 22}}>Budget: {trip.budget}</Text>
+                      <Text style={{fontSize: 22}}>Spent: ${parseFloat(Math.round(trip.total * 100) / 100).toFixed(2)}</Text>
+                  </View>
+              </View>
+
+              <TouchableOpacity style={styles.backButtonBox} onPress={() => this.setAll()}>
+                  <Text style={styles.backButtonText}>Back</Text>
+              </TouchableOpacity>
           </View>
         );
     }
@@ -79,10 +117,10 @@ class PastTrip extends Component {
                             const single = JSON.parse(trip);
                             console.log(single.total);
                             return(
-                                <View key={index} style={styles.trip}>
+                                <TouchableOpacity key={index} style={styles.trip} onPress={() => this.setSingle(single)}>
                                     <Text style={{fontSize: 24}}>{single.place}: </Text>
                                     <Text style={{fontSize: 24}}>${parseFloat(Math.round(single.total * 100) / 100).toFixed(2)}</Text>
-                                </View>
+                                </TouchableOpacity>
                             )
                         })
                     }
@@ -97,7 +135,7 @@ class PastTrip extends Component {
 
     render() {
         return(
-            this.state.showAll ? this.renderAllTrips() : this.renderAllTrips()
+            this.state.showAll ? this.renderAllTrips() : this.renderSingleTrip()
         );
     }
 }
@@ -125,7 +163,8 @@ const styles = StyleSheet.create({
     box: {
         marginHorizontal: 10,
         marginVertical: 20,
-        backgroundColor: '#E8F9F9'
+        backgroundColor: '#E8F9F9',
+        flex: 1
     },
     trip: {
         marginHorizontal: 10,
@@ -146,7 +185,14 @@ const styles = StyleSheet.create({
         color: '#E8F9F9',
         textAlign: 'center',
         paddingVertical: 20
+    },
+    item: {
+        paddingHorizontal: 5,
+        paddingVertical: 10,
+        flexDirection: 'row',
+        justifyContent: 'space-between'
     }
+
 })
 
 export default PastTrip;
