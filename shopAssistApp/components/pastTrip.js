@@ -2,7 +2,11 @@ import React, {Component} from 'react';
 import {
     Text,
     View,
-    StyleSheet, AsyncStorage, Alert
+    StyleSheet,
+    AsyncStorage,
+    Alert,
+    ScrollView,
+    TouchableOpacity
 } from 'react-native'
 
 class PastTrip extends Component {
@@ -16,7 +20,12 @@ class PastTrip extends Component {
             trips: []
         };
 
+        // Switch between Screens
         this.switch = this.switch.bind(this);
+
+        // Renders
+        this.renderSingleTrip = this.renderSingleTrip.bind(this);
+        this.renderAllTrips = this.renderAllTrips.bind(this);
     }
 
     componentWillMount() {
@@ -38,24 +47,57 @@ class PastTrip extends Component {
         }
     };
 
+    // Changes what is rendered
     switch() {
         this.setState((prevState) => ({
             showAll: !prevState.showAll
         }))
     }
 
-    render() {
-        console.log(this.state.trips);
+    renderSingleTrip() {
+        return(
+          <View>
+              <Text>
+
+              </Text>
+          </View>
+        );
+    }
+
+    renderAllTrips() {
+        const trips = this.state.trips;
+
         return (
             <View style={styles.container}>
                 <View style={styles.headerBox}>
                     <Text style={styles.header}>Past Trips</Text>
                 </View>
 
-                <View style={styles.box}>
+                <ScrollView style={styles.box}>
+                    {
+                        trips.map((trip,index) => {
+                            const single = JSON.parse(trip);
+                            console.log(single.total);
+                            return(
+                                <View key={index} style={styles.trip}>
+                                    <Text style={{fontSize: 24}}>{single.place}: </Text>
+                                    <Text style={{fontSize: 24}}>${parseFloat(Math.round(single.total * 100) / 100).toFixed(2)}</Text>
+                                </View>
+                            )
+                        })
+                    }
+                </ScrollView>
 
-                </View>
+                <TouchableOpacity style={styles.backButtonBox} onPress={this.props.setHome}>
+                    <Text style={styles.backButtonText}>Back</Text>
+                </TouchableOpacity>
             </View>
+        );
+    }
+
+    render() {
+        return(
+            this.state.showAll ? this.renderAllTrips() : this.renderAllTrips()
         );
     }
 }
@@ -84,6 +126,26 @@ const styles = StyleSheet.create({
         marginHorizontal: 10,
         marginVertical: 20,
         backgroundColor: '#E8F9F9'
+    },
+    trip: {
+        marginHorizontal: 10,
+        marginVertical: 3,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingVertical: 10,
+    },
+    backButtonBox: {
+        marginHorizontal: 20,
+        marginVertical: 15,
+        backgroundColor: '#339C9C',
+        borderWidth: 4,
+        borderColor: '#E8F9F9'
+    },
+    backButtonText: {
+        fontSize: 24,
+        color: '#E8F9F9',
+        textAlign: 'center',
+        paddingVertical: 20
     }
 })
 

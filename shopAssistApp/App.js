@@ -118,18 +118,18 @@ export default class App extends React.Component {
       render() {
           // return (
           //     <PastTrip setHome={this.setHome} />
-          // )
+          // );
         if(this.state.splash) {
             return (
                 <NewUser passBack={this.passBackName} />
-            );
+            )
         } else if(this.state.newTrip) {
             return (
                 <NewTrip setHome={this.setHome} />
             )
         } else if(this.state.pastTrip) {
             return (
-                <PastTrip />
+                <PastTrip setHome={this.setHome} />
             )
         } else if(this.state.profile) {
             return (

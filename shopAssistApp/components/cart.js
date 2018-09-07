@@ -91,7 +91,7 @@ class Cart extends Component {
 
     // Save the Trip
     saveTrip() {
-        const trip = JSON.stringify({total: this.state.total, items: this.state.items});
+        const trip = JSON.stringify({total: this.state.total, items: this.state.items, place: this.props.place, budget: this.props.budget});
 
         this._storeTrip(trip);
 
