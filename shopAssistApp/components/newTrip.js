@@ -83,7 +83,7 @@ class NewTrip extends Component {
 
     renderTrip() {
         return (
-            <Cart budget={this.state.budget} back={this.switchScreens} />
+            <Cart budget={this.state.budget} back={this.switchScreens} home={this.props.setHome}/>
         )
     }
 

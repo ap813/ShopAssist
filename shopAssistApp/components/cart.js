@@ -95,18 +95,17 @@ class Cart extends Component {
 
         this._storeTrip(trip);
 
-
+        this.props.home();
     }
 
     _storeTrip = async (trip) => {
         try {
             await AsyncStorage.getItem('@ShopAssist:trips')
-                .then((trips) => {
-                    if(trips !== null) {
-                        trips = [];
-                    }
+                .then((value) => {
+                    const trips = JSON.parse(value).trips;
                     trips.unshift(trip);
-                    AsyncStorage.setItem('@ShopAssist:trips', trips);
+                    const save = JSON.stringify({trips: trips})
+                    AsyncStorage.setItem('@ShopAssist:trips', save);
                 });
         } catch (error) {
             // Error saving data

@@ -6,7 +6,7 @@ import NewTrip from './components/newTrip'
 import PastTrip from './components/pastTrip'
 import Profile from './components/profile'
 
-Expo.ScreenOrientation.allow(Expo.ScreenOrientation.Orientation.PORTRAIT_UP)
+Expo.ScreenOrientation.allow(Expo.ScreenOrientation.Orientation.PORTRAIT_UP);
 
 export default class App extends React.Component {
 
@@ -20,7 +20,7 @@ export default class App extends React.Component {
             pastTrip: false,
             profile: false,
             name: ''
-        }
+        };
 
         // Only Called Once
         this.passBackName = this.passBackName.bind(this);
@@ -41,18 +41,23 @@ export default class App extends React.Component {
     _retrieveName = async () => {
         try {
             const value = await AsyncStorage.getItem('@ShopAssist:name');
+
             if (value !== null) {
-                // There is a Name
-                console.log("Name: " + value);
+                this.setState({
+                  name: value
+                })
+            }
+            else {
+                console.log('no name');
+                this.setState({
+                    splash: true
+                });
             }
         } catch (error) {
             // Error retrieving data
-            console.log('no name');
-            this.setState({
-                splash: true
-            });
+            Alert.alert("Error Retrieving Name")
         }
-    }
+    };
 
     passBackName(name) {
         this.setState({
@@ -62,7 +67,7 @@ export default class App extends React.Component {
             pastTrip: false,
             profile: false,
             name
-        })
+        });
 
         // Confirm Name is Received
         console.log(name);
@@ -108,25 +113,11 @@ export default class App extends React.Component {
         })
     }
 
-    _retrieveTrips = async () => {
-        try {
-            const value = await AsyncStorage.getItem('@ShopAssist:trips');
-            if (value !== null) {
-                // There is a Name
-                console.log("Trips: "+ value);
-            }
-        } catch (error) {
-            Alert.alert("Problem")
-        }
-    }
-
     // Initial Screen: User Inputs Name
     // Four main states: Home, New Trip, Past Trip, & Profile
       render() {
-
-        this._retrieveTrips();
           // return (
-          //     <NewTrip setHome={this.setHome} />
+          //     <PastTrip setHome={this.setHome} />
           // )
         if(this.state.splash) {
             return (

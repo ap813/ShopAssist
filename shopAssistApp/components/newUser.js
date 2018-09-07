@@ -31,9 +31,11 @@ class NewUser extends Component {
         try {
             await AsyncStorage.setItem('@ShopAssist:name', this.state.name);
 
-            await AsyncStorage.setItem('@ShopAssist:trips', []);
+            const array = JSON.stringify({trips: []});
+
+            await AsyncStorage.setItem('@ShopAssist:trips', array);
             // Pass It Back to With Props
-            this.props.passBack(this.state.name);
+            await this.props.passBack(this.state.name);
         } catch (error) {
             // Error saving data
             Alert.alert("Error Saving Name");
