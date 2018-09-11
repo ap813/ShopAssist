@@ -19,11 +19,11 @@ export default class App extends React.Component {
             newTrip: false,
             pastTrip: false,
             profile: false,
-            name: ''
+            tos: false
         };
 
         // Only Called Once
-        this.passBackName = this.passBackName.bind(this);
+        this.passBack = this.passBack.bind(this);
 
         // Navigation Functions
         this.setHome = this.setHome.bind(this);
@@ -40,15 +40,11 @@ export default class App extends React.Component {
 
     _retrieveName = async () => {
         try {
-            const value = await AsyncStorage.getItem('@ShopAssist:name');
+            const value = await AsyncStorage.getItem('@ShopAssist:tos');
 
-            if (value !== null) {
-                this.setState({
-                  name: value
-                })
-            }
-            else {
-                console.log('no name');
+            console.log(value);
+
+            if (value === null) {
                 this.setState({
                     splash: true
                 });
@@ -59,18 +55,14 @@ export default class App extends React.Component {
         }
     };
 
-    passBackName(name) {
+    passBack() {
         this.setState({
             splash: false,
             home: true,
             newTrip: false,
             pastTrip: false,
-            profile: false,
-            name
+            profile: false
         });
-
-        // Confirm Name is Received
-        console.log(name);
     }
 
     setHome() {
@@ -117,11 +109,11 @@ export default class App extends React.Component {
     // Four main states: Home, New Trip, Past Trip, & Profile
       render() {
           // return (
-          //     <PastTrip setHome={this.setHome} />
+          //     <Profile setHome={this.setHome} />
           // );
         if(this.state.splash) {
             return (
-                <NewUser passBack={this.passBackName} />
+                <NewUser passBack={this.passBack} />
             )
         } else if(this.state.newTrip) {
             return (
@@ -133,7 +125,7 @@ export default class App extends React.Component {
             )
         } else if(this.state.profile) {
             return (
-                <Profile />
+                <Profile setHome={this.setHome}/>
             )
         } else {
             return (

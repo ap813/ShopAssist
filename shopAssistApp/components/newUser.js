@@ -17,11 +17,11 @@ class NewUser extends Component {
             name: ''
         }
 
-        this.saveName = this.saveName.bind(this);
+        this.saveTos = this.saveTos.bind(this);
     }
 
     // Save User's name to AsyncStorage
-    saveName() {
+    saveTos() {
 
         // Save the Name
         this._storeName();
@@ -29,13 +29,16 @@ class NewUser extends Component {
 
     _storeName = async () => {
         try {
-            await AsyncStorage.setItem('@ShopAssist:name', this.state.name);
+
+            const value = JSON.stringify({tos: true})
+
+            await AsyncStorage.setItem('@ShopAssist:tos', value);
 
             const array = JSON.stringify({trips: []});
 
             await AsyncStorage.setItem('@ShopAssist:trips', array);
             // Pass It Back to With Props
-            await this.props.passBack(this.state.name);
+            await this.props.passBack();
         } catch (error) {
             // Error saving data
             Alert.alert("Error Saving Name");
@@ -48,18 +51,20 @@ class NewUser extends Component {
                 <View style={styles.welcomeBox}>
                     <Text style={styles.welcomeMessage}>Welcome to Shop Assist</Text>
 
-                    <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                        <Text style={styles.question}>What's your name?</Text>
-                        <TextInput
-                            style={styles.answer}
-                            onChangeText={(name) => this.setState({name})}
-                            value={this.state.name}
-                            placeholder={'Name'}
-                            placeholderTextColor={'#82DCDC'} />
+                    <View>
+                        <Text style={styles.tos}>
+                            Shop Assist is an app for helping users to find out
+                            how much money they will spend whenever they go out.
+                            The app does not user any personal data and no information
+                            is sent out from the devices. Prices are not guarenteed to
+                            be correct, the creator of this app is not responsible for
+                            any incorrect prices. By clicking "I Agree" you agree that
+                            the above information is correct.
+                        </Text>
                     </View>
 
-                    <TouchableOpacity onPress={() => this.saveName()} style={styles.button}>
-                        <Text style={styles.buttonText}>Ready to Go</Text>
+                    <TouchableOpacity onPress={() => this.saveTos()} style={styles.button}>
+                        <Text style={styles.buttonText}>I Agree</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -86,11 +91,12 @@ const styles = StyleSheet.create({
         textDecorationLine: 'underline',
         color: '#339C9C'
     },
-    question: {
-        fontSize: 20,
+    tos: {
+        fontSize: 22,
         paddingHorizontal: 20,
-        paddingVertical: 20,
-        color: '#339C9C'
+        paddingVertical: 10,
+        color: '#339C9C',
+        textAlign: 'justify'
     },
     answer: {
         width: 100,

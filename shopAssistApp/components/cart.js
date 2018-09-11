@@ -13,6 +13,7 @@ import Item from './item'
 import AddItem from './addItem'
 
 class Cart extends Component {
+
     constructor(props) {
         super(props);
 
