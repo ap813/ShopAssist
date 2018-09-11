@@ -1,5 +1,8 @@
 # ShoppingAssistant
 
+App Available Via:
+https://play.google.com/store/apps/details?id=com.alexphillips.shoppingcart
+
 In ShoppingAssistant, the app will start by prompting the user for the budget of the trip. This can be a rough estimate or an accurate to the cent amount that the user wants to spend.
 
 The intended use of the app is for grocery shopping or shopping at larger store like Target, Walmart, etc.
