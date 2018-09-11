@@ -22,7 +22,8 @@ class Cart extends Component {
             budgetColor: '#E8F9F9',
             total: 0,
             preTax: 0,
-            items: []
+            items: [],
+            taxRate: 7
         };
 
         // Function that change Render
@@ -43,8 +44,23 @@ class Cart extends Component {
     }
 
     componentWillMount() {
-        this.checkBudget(this.state.total)
+        this._getTax();
+        this.checkBudget(this.state.total);
     }
+
+    _getTax = async () => {
+        try {
+            const value = await AsyncStorage.getItem("@ShopAssist:tax");
+            const tax = JSON.parse(value).tax/100;
+            console.log(tax);
+            this.setState({
+                taxRate: tax
+            });
+        }
+        catch (error) {
+            Alert.alert("Error Getting Tax");
+        }
+    };
 
     // Switch between Cart Screen and Item Input Screen
     switchCart() {
@@ -59,7 +75,7 @@ class Cart extends Component {
         const newItems = [...this.state.items];
         newItems.unshift(item);
 
-        const total = (this.state.preTax + item.price) * 1.07;
+        const total = (this.state.preTax + item.price) * (1 + this.state.taxRate);
         const preTax = this.state.preTax + item.price;
 
         this.setState({
@@ -78,7 +94,7 @@ class Cart extends Component {
         const newItems = [...this.state.items];
         newItems.splice(index, 1);
 
-        const total = (this.state.preTax-price) * 1.07;
+        const total = (this.state.preTax-price) * (1 + this.state.taxRate);
         const preTax = this.state.preTax - price;
 
         this.setState({

@@ -1,5 +1,15 @@
 {
   "expo": {
-    "sdkVersion": "27.0.0"
+    "name": "Shopping Cart",
+    "icon": "../IconImage.png",
+    "version": "1.0.0",
+    "slug": "ShoppingCart",
+    "sdkVersion": "27.0.0",
+    "ios": {
+      "bundleIdentifier": "com.alexphillips.shoppingcart"
+    },
+    "android": {
+      "package": "com.alexphillips.shoppingcart"
+    }
   }
 }

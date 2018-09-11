@@ -37,6 +37,11 @@ class NewUser extends Component {
             const array = JSON.stringify({trips: []});
 
             await AsyncStorage.setItem('@ShopAssist:trips', array);
+
+            const tax = 7;
+            const taxRate = JSON.stringify({tax: tax});
+
+            await AsyncStorage.setItem('@ShopAssist:tax', taxRate);
             // Pass It Back to With Props
             await this.props.passBack();
         } catch (error) {
